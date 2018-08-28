@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Course/Class Management</title>
+<script src="jquery-1.12.4.js"></script>
+<script src="jquery-ui.js"></script>
+<link rel="stylesheet" href="jquery-ui.css" />
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+}
+body { margin: 15px; }
+table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid black;
+	box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.50);
+	-webkit-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.50);
+	-moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.50);
+}
+.lblCourseTitle, .lblCourseName { font-weight: bold; }
+.lblCourseTitle {
+	font-size: 1.5em;
+	color: #663399;
+}
+.lblCourseName {
+	font-size: 1.25em;
+	color: #FF9900;
+}
+.lblCourseDescription { text-align: justify; }
+.imgBtn { cursor: pointer; }
+.center { text-align: center; }
+.left { text-align: left; }
+td {
+	border: 1px dotted black;
+	padding: 3px;
+}
+th {
+	padding: 3px;
+	background: #FF9900;
+	color: white;
+}
+.bold { font-weight: bold; }
+.red { color: red; }
+table tr:nth-child(even) { background: #EEEEEE; }
+.divPopup { display: none; }
+#ContentWrapper .divCourseInformation {
+	border-bottom: 1px dotted black;
+	padding-bottom: 20px;
+	padding-top: 15px;
+}
+#ContentWrapper .divCourseInformation:first-child { padding-top: 0; }
+#ContentWrapper .divCourseInformation:last-child { border-bottom: none!important; }
+</style>
+</head>
+<body>
+<div id="ContentWrapper">
+    <div class="divCourseInformation">
+        <label class="lblCourseTitle">BANC</label>
+        <img class="imgBtn crs_1" onClick="EditCourse(this)" src="edit.png" title="edit" alt="edit" />
+        <br />
+        <label class="lblCourseName">Balls And Noodles Course</label>
+        <br />
+        <p class="lblCourseDescription">BANC is a twelve-week high-tempo course. Student time-management and work prioritization skills are pushed to extremes, replicating requirements levied on them in real-world operational environments. This dynamic course incorporates small group instruction and scenario-based, performance-oriented, and realistic field training exercises designed to train and evaluate each of the students' ability to preform in a variety of situations. In addition to training to specific tasks, students are evaluated on their operational thinking and operational judgement.</p>
+        <br />
+        <table class="tblCourse">
+            <thead>
+                <tr>
+                    <th class="left">CRRS ID</th>
+                    <th>Capacity</th>
+                    <th>Weeks</th>
+                    <th>Days</th>
+                    <th>Total Days</th>
+                    <th>Objective</th>
+                    <th>Prerequisites</th>
+                    <th>Next Steps</th>
+                    <th>Deactivate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="bold">FVR AID/22T V</td>
+                    <td class="center">36</td>
+                    <td class="center">11</td>
+                    <td class="center">6</td>
+                    <td class="center">83</td>
+                    <td class="center"><img id="btn_BANC_Objective" class="imgBtn crs_1" onClick="ViewCrsObjective(this)" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img id="btn_BANC_Prerequisite" class="imgBtn crs_1" onClick="ViewCrsPrerequisites(this)" src="note.png" title="View Prerequisites" alt="View Prerequisites" /></td>
+                    <td class="center"><img id="btn_BANC_NextSteps" class="imgBtn crs_1" onClick="ViewCrsNextSteps(this)" src="note.png" title="View Next Steps" alt="View Next Steps" /></td>
+                    <td class="center"><img id="btn_BANC_Deativate" class="crs_1" width="18" onClick="Deactivate(this)" src="NoFalse.png" /></td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <img class="imgBtn crs_1" onClick="AddClass(this)" src="AddClassBtn.png" title="Add New Class" alt="Add New Class" />
+        <table class="tblClass">
+            <thead>
+                <tr>
+                    <th>Edit</th>
+                    <th>Class Number</th>
+                    <th>Deadline</th>
+                    <th>Report</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Clearance</th>
+                    <th>Capacity</th>
+                    <th>Weeks</th>
+                    <th>Days</th>
+                    <th>Total Days</th>
+                    <th>Training Type</th>
+                    <th>Description</th>
+                    <th>Objective</th>
+                    <th>Next Steps</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="center"><img class="imgBtn cls_1" onClick="EditClass(this)" src="edit.png" title="edit" alt="edit" /></td>
+                    <td class="center bold">18-001</td>
+                    <td class="center bold red">01 AUG 2018</td>
+                    <td class="center">01 OCT 2018</td>
+                    <td class="center bold">01 OCT 2018</td>
+                    <td class="center bold">05 DEC 2018</td>
+                    <td class="center">Secret</td>
+                    <td class="center">36</td>
+                    <td class="center">11</td>
+                    <td class="center">6</td>
+                    <td class="center">83</td>
+                    <td class="center"><img id="cls_1" class="imgBtn cls_1" onClick="ViewClsTrainingType(this)" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img id="cls_1" class="imgBtn cls_1" onClick="ViewClsDescription(this)" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img id="cls_1" class="imgBtn cls_1" onClick="ViewClsObjective(this)" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img id="cls_1" class="imgBtn" onClick="ViewClsNextSteps(this)" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                </tr>
+                <tr>
+                    <td class="center"><img class="imgBtn cls_2" onClick="EditClass(this)" src="edit.png" title="edit" alt="edit" /></td>
+                    <td class="center bold">18-001</td>
+                    <td class="center bold red">01 AUG 2018</td>
+                    <td class="center">01 OCT 2018</td>
+                    <td class="center bold">01 OCT 2018</td>
+                    <td class="center bold">05 DEC 2018</td>
+                    <td class="center">Secret</td>
+                    <td class="center">36</td>
+                    <td class="center">11</td>
+                    <td class="center">6</td>
+                    <td class="center">83</td>
+                    <td class="center"><img class="imgBtn cls_2" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_2" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_2" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_2" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                </tr>
+                <tr>
+                    <td class="center"><img class="imgBtn cls_3" onClick="EditClass(this)" src="edit.png" title="edit" alt="edit" /></td>
+                    <td class="center bold">18-001</td>
+                    <td class="center bold red">01 AUG 2018</td>
+                    <td class="center">01 OCT 2018</td>
+                    <td class="center bold">01 OCT 2018</td>
+                    <td class="center bold">05 DEC 2018</td>
+                    <td class="center">Secret</td>
+                    <td class="center">36</td>
+                    <td class="center">11</td>
+                    <td class="center">6</td>
+                    <td class="center">83</td>
+                    <td class="center"><img class="imgBtn cls_3" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_3" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_3" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_3" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                </tr>
+                <tr>
+                    <td class="center"><img class="imgBtn cls_4" onClick="EditClass(this)" src="edit.png" title="edit" alt="edit" /></td>
+                    <td class="center bold">18-001</td>
+                    <td class="center bold red">01 AUG 2018</td>
+                    <td class="center">01 OCT 2018</td>
+                    <td class="center bold">01 OCT 2018</td>
+                    <td class="center bold">05 DEC 2018</td>
+                    <td class="center">Secret</td>
+                    <td class="center">36</td>
+                    <td class="center">11</td>
+                    <td class="center">6</td>
+                    <td class="center">83</td>
+                    <td class="center"><img class="imgBtn cls_4" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_4" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_4" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_4" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                </tr>
+                <tr>
+                    <td class="center"><img class="imgBtn cls_5" onClick="EditClass(this)" src="edit.png" title="edit" alt="edit" /></td>
+                    <td class="center bold">18-001</td>
+                    <td class="center bold red">01 AUG 2018</td>
+                    <td class="center">01 OCT 2018</td>
+                    <td class="center bold">01 OCT 2018</td>
+                    <td class="center bold">05 DEC 2018</td>
+                    <td class="center">Secret</td>
+                    <td class="center">36</td>
+                    <td class="center">11</td>
+                    <td class="center">6</td>
+                    <td class="center">83</td>
+                    <td class="center"><img class="imgBtn cls_5" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_5" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_5" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_5" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                </tr>
+                <tr>
+                    <td class="center"><img class="imgBtn cls_6" onClick="EditClass(this)" src="edit.png" title="edit" alt="edit" /></td>
+                    <td class="center bold">18-001</td>
+                    <td class="center bold red">01 AUG 2018</td>
+                    <td class="center">01 OCT 2018</td>
+                    <td class="center bold">01 OCT 2018</td>
+                    <td class="center bold">05 DEC 2018</td>
+                    <td class="center">Secret</td>
+                    <td class="center">36</td>
+                    <td class="center">11</td>
+                    <td class="center">6</td>
+                    <td class="center">83</td>
+                    <td class="center"><img class="imgBtn cls_6" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_6" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_6" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_6" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                </tr>
+                <tr>
+                    <td class="center"><img class="imgBtn cls_7" onClick="EditClass(this)" src="edit.png" title="edit" alt="edit" /></td>
+                    <td class="center bold">18-001</td>
+                    <td class="center bold red">01 AUG 2018</td>
+                    <td class="center">01 OCT 2018</td>
+                    <td class="center bold">01 OCT 2018</td>
+                    <td class="center bold">05 DEC 2018</td>
+                    <td class="center">Secret</td>
+                    <td class="center">36</td>
+                    <td class="center">11</td>
+                    <td class="center">6</td>
+                    <td class="center">83</td>
+                    <td class="center"><img class="imgBtn cls_7" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_7" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_7" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                    <td class="center"><img class="imgBtn cls_7" src="note.png" title="View Course Objective" alt="View Course Objective" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- POPUP SECTION -->
+<div id="popAddClass" class="divPopup"></div>
+<div id="popEditClass" class="divPopup"></div>
+<div id="popEditCourse" class="divPopup"></div>
+<!-- END POPUP SECTION -->
+<script>
+function EditCourse(e){
+	//CLASS NAME 'crs_...' MUST BE LAST IN CLASS ATTRIBUTES
+	var cn = e.className.toString();
+	var index = cn.indexOf("crs_") + 4;
+	var id = cn.substring(index);
+	$('#popEditCourse').html("Course ID = " + id);
+	$('#popEditCourse').dialog({
+		modal:true
+	});
+};
+function EditClass(e){
+	//CLASS NAME 'cls_...' MUST BE LAST IN CLASS ATTRIBUTES
+	var cn = e.className.toString();
+	var index = cn.indexOf("cls_") + 4;
+	var id = cn.substring(index);
+	$('#popEditClass').html("Class ID = " + id);
+	$('#popEditClass').dialog({
+		modal:true
+	});
+};
+function AddClass(e){
+	//CLASS NAME 'crs_...' MUST BE LAST IN CLASS ATTRIBUTES
+	var cn = e.className.toString();
+	var index = cn.indexOf("crs_") + 4;
+	var id = cn.substring(index);
+	$('#popAddClass').html("Course ID = " + id);
+	$('#popAddClass').dialog({
+		modal:true
+	});
+};
+</script>
+</body>
+</html>
